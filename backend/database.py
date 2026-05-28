@@ -71,3 +71,34 @@ def obtener_historial(perfil_id):
         })
 
     return historial
+
+
+def login(usuario, password):
+    # Buscamos por email o por nombre
+    perfil = perfiles.find_one({
+        "$or": [
+            {"email":  usuario},
+            {"nombre": usuario}
+        ],
+        "password": password
+    })
+    if perfil:
+        return str(perfil["_id"])
+    return None
+
+
+def registro(nombre, email, password):
+    # Comprobamos que no exista ya ese email
+    if perfiles.find_one({"email": email}):
+        return None
+
+    perfil = {
+        "nombre": nombre,
+        "email": email,
+        "password": password,
+        "partidas_jugadas": 0,
+        "partidas_ganadas": 0,
+        "id_partidas": []
+    }
+    resultado = perfiles.insert_one(perfil)
+    return str(resultado.inserted_id)

@@ -28,6 +28,10 @@ async def gestionar_conexion(ws):
                 await partida.partida_terminada(ws, datos)
             elif tipo == "pedir_historial":
                 await partida.pedir_historial(ws, datos)
+            elif tipo == "login":
+                await partida.login(ws, datos)
+            elif tipo == "registro":
+                await partida.registro(ws, datos)
             else:
                 await ws.send(json.dumps({"tipo": "error", "mensaje": "Tipo desconocido"}))
 

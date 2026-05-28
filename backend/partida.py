@@ -87,3 +87,26 @@ async def pedir_historial(ws, datos):
     perfil_id = datos["perfil_id"]
     historial = database.obtener_historial(perfil_id)
     await ws.send(json.dumps({"tipo": "historial", "historial": historial}))
+
+
+async def login(ws, datos):
+    usuario = datos["usuario"]
+    password = datos["password"]
+
+    perfil_id = database.login(usuario, password)
+    if perfil_id:
+        await ws.send(json.dumps({"tipo": "login_ok", "perfil_id": perfil_id}))
+    else:
+        await ws.send(json.dumps({"tipo": "error", "mensaje": "Usuario o contraseña incorrectos"}))
+
+
+async def registro(ws, datos):
+    nombre = datos["nombre"]
+    email = datos["email"]
+    password = datos["password"]
+
+    perfil_id = database.registro(nombre, email, password)
+    if perfil_id:
+        await ws.send(json.dumps({"tipo": "registro_ok", "perfil_id": perfil_id}))
+    else:
+        await ws.send(json.dumps({"tipo": "error", "mensaje": "Ese email ya está registrado"}))
