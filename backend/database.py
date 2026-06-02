@@ -102,3 +102,23 @@ def registro(nombre, email, password):
     }
     resultado = perfiles.insert_one(perfil)
     return str(resultado.inserted_id)
+
+def obtener_perfil(perfil_id):
+    perfil = perfiles.find_one({"_id": ObjectId(perfil_id)})
+    if perfil:
+        return {
+            "nombre":           perfil["nombre"],
+            "email":            perfil["email"],
+            "partidas_jugadas": perfil["partidas_jugadas"],
+            "partidas_ganadas": perfil["partidas_ganadas"]
+        }
+    return None
+def obtener_colecciones():
+    resultado = colecciones.find({}, {"_id": 1, "nombre": 1})
+    lista = []
+    for c in resultado:
+        lista.append({
+            "id": str(c["_id"]),
+            "nombre": c["nombre"]
+        })
+    return lista

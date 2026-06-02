@@ -32,6 +32,14 @@ async def gestionar_conexion(ws):
                 await partida.login(ws, datos)
             elif tipo == "registro":
                 await partida.registro(ws, datos)
+            elif tipo == "pedir_perfil":
+                await partida.pedir_perfil(ws, datos)
+            elif tipo == "pedir_colecciones":
+                await partida.pedir_colecciones(ws, datos)
+            elif tipo == "pedir_lista_jugadores":
+                await partida.pedir_lista_jugadores(ws, datos, salas.salas)
+            elif tipo == "guardar_partida":
+                await partida.guardar_partida_jugador(ws, datos)
             else:
                 await ws.send(json.dumps({"tipo": "error", "mensaje": "Tipo desconocido"}))
 

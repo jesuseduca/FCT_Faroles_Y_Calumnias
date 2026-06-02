@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="32dp"
+    android:background="#1a1a1a">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Rasca para revelar tu rol"
+        android:textSize="22sp"
+        android:textColor="#ffffff"
+        android:fontFamily="@font/knewave_regular"
+        android:layout_marginBottom="32dp"/>
+
+    <FrameLayout
+        android:layout_width="300dp"
+        android:layout_height="200dp">
+
+        <!-- Texto del rol debajo del rasca -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="#1a1a1a">
+
+            <ImageView
+                android:id="@+id/ivJonkler"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@drawable/jonkler"
+                android:layout_marginBottom="16dp"/>
+
+            <TextView
+                android:id="@+id/tvRol"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="24sp"
+                android:textColor="#ffffff"
+                android:fontFamily="@font/knewave_regular"
+                android:gravity="center"/>
+
+        </LinearLayout>
+
+        <!-- Capa rasca encima -->
+        <com.example.fct_faroles_y_calumnias_app.utils.ScratchView
+            android:id="@+id/scratchView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/tvFrase"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="16sp"
+        android:textColor="#aaaaaa"
+        android:fontFamily="@font/sigmar"
+        android:gravity="center"
+        android:layout_marginTop="32dp"/>
+
+    <Button
+        android:id="@+id/btnListoRasca"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="¡Listo!"
+        android:textSize="20sp"
+        android:backgroundTint="#2A2A2A"
+        android:textColor="@color/rojo_principal"
+        android:fontFamily="@font/knewave_regular"
+        android:padding="16dp"
+        android:layout_marginTop="32dp"
+        android:visibility="gone"/>
+
+</LinearLayout>

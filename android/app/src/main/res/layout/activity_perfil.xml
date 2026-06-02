@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="32dp"
+    android:background="@color/fondo_principal">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mi Perfil"
+        android:textSize="32sp"
+        android:textColor="@color/rojo_principal"
+        android:fontFamily="@font/knewave_regular"
+        android:layout_marginBottom="32dp"/>
+
+    <TextView
+        android:id="@+id/tvNombre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nombre"
+        android:textSize="22sp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/black_and_white_picture"
+        android:layout_marginBottom="8dp"/>
+
+    <TextView
+        android:id="@+id/tvEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Email"
+        android:textSize="16sp"
+        android:textColor="@color/texto_secundario"
+        android:fontFamily="@font/sigmar"
+        android:layout_marginBottom="32dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Estadísticas"
+        android:textSize="22sp"
+        android:textColor="@color/rojo_principal"
+        android:fontFamily="@font/black_and_white_picture"
+        android:layout_marginBottom="16dp"/>
+
+    <TextView
+        android:id="@+id/tvPartidasJugadas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Partidas jugadas: 0"
+        android:textSize="16sp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/sigmar"
+        android:layout_marginBottom="8dp"/>
+
+    <TextView
+        android:id="@+id/tvPartidasGanadas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Partidas ganadas: 0"
+        android:textSize="16sp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/sigmar"
+        android:layout_marginBottom="32dp"/>
+
+    <Button
+        android:id="@+id/btnVerHistorial"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ver historial de partidas"
+        android:textSize="18sp"
+        android:backgroundTint="#2A2A2A"
+        android:textColor="@color/rojo_principal"
+        android:fontFamily="@font/knewave_regular"
+        android:padding="16dp"
+        android:layout_marginBottom="16dp"/>
+
+    <Button
+        android:id="@+id/btnVolver"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Volver"
+        android:textSize="18sp"
+        android:backgroundTint="#2A2A2A"
+        android:textColor="@color/rojo_principal"
+        android:fontFamily="@font/knewave_regular"
+        android:padding="16dp"/>
+
+</LinearLayout>

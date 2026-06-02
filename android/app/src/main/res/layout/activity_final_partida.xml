@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="32dp"
+    android:background="@color/fondo_principal">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Fin de la partida"
+        android:textSize="32sp"
+        android:textColor="@color/rojo_principal"
+        android:fontFamily="@font/knewave_regular"
+        android:layout_marginBottom="16dp"/>
+
+    <TextView
+        android:id="@+id/tvGanador"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ganador: "
+        android:textSize="24sp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/black_and_white_picture"
+        android:layout_marginBottom="32dp"/>
+
+    <ListView
+        android:id="@+id/lvClasificacion"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginBottom="32dp"/>
+
+    <Button
+        android:id="@+id/btnVolverMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Volver al menú"
+        android:textSize="20sp"
+        android:backgroundTint="#2A2A2A"
+        android:textColor="@color/rojo_principal"
+        android:fontFamily="@font/knewave_regular"
+        android:padding="16dp"
+        android:layout_marginBottom="16dp"/>
+
+    <Button
+        android:id="@+id/btnReinciar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Jugar de nuevo"
+        android:textSize="20sp"
+        android:backgroundTint="#2A2A2A"
+        android:textColor="@color/rojo_principal"
+        android:fontFamily="@font/knewave_regular"
+        android:padding="16dp"/>
+
+</LinearLayout>

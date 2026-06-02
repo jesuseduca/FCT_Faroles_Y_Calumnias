@@ -1,0 +1,8 @@
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="fondo_principal">#CEBCBD</color>
+    <color name="rojo_principal">#BB3235</color>
+    <color name="texto_secundario">#888888</color>
+    <color name="boton_negro">#2A2A2A</color>
+</resources>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="32dp"
+    android:background="@color/fondo_principal">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Crear Partida"
+        android:textSize="32sp"
+        android:textColor="@color/rojo_principal"
+        android:fontFamily="@font/knewave_regular"
+        android:layout_marginBottom="32dp"/>
+
+
+    <EditText
+        android:id="@+id/etNombrePartida"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Tu nombre en la partida"
+        android:inputType="text"
+        android:textColor="@color/black"
+        android:textColorHint="@color/texto_secundario"
+        android:backgroundTint="@color/rojo_principal"
+        android:layout_marginBottom="16dp"/>
+
+    <Button
+        android:id="@+id/btnCrearSala"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Crear sala"
+        android:textSize="20sp"
+        android:backgroundTint="#2A2A2A"
+        android:textColor="@color/rojo_principal"
+        android:fontFamily="@font/knewave_regular"
+        android:padding="16dp"/>
+
+</LinearLayout>

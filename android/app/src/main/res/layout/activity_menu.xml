@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Contenido del menú -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/contenidoMenu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/fondo_principal"
+        android:padding="32dp">
+
+        <ImageButton
+            android:id="@+id/btnInfo"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@android:color/transparent"
+            android:src="@android:drawable/ic_dialog_info"
+            android:contentDescription="Cómo se juega"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <TextView
+                android:id="@+id/tvBienvenida"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="¡Bienvenido!"
+                android:textSize="32sp"
+                android:textColor="@color/rojo_principal"
+                android:fontFamily="@font/knewave_regular"
+                android:layout_marginBottom="48dp"/>
+
+            <Button
+                android:id="@+id/btnCrearLobby"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Crear partida"
+                android:textSize="20sp"
+                android:backgroundTint="#2A2A2A"
+                android:textColor="@color/rojo_principal"
+                android:fontFamily="@font/knewave_regular"
+                android:padding="16dp"
+                android:layout_marginBottom="16dp"/>
+
+            <Button
+                android:id="@+id/btnUnirse"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Unirse a partida"
+                android:textSize="20sp"
+                android:backgroundTint="#2A2A2A"
+                android:textColor="@color/rojo_principal"
+                android:fontFamily="@font/knewave_regular"
+                android:padding="16dp"
+                android:layout_marginBottom="16dp"/>
+
+            <Button
+                android:id="@+id/btnPerfil"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Mi perfil"
+                android:textSize="20sp"
+                android:backgroundTint="#2A2A2A"
+                android:textColor="@color/rojo_principal"
+                android:fontFamily="@font/knewave_regular"
+                android:padding="16dp"/>
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Fragment de información encima de todo -->
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/nav_host_fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:background="@color/fondo_principal"
+        app:navGraph="@navigation/nav_graph"
+        app:defaultNavHost="true"/>
+
+</FrameLayout>
