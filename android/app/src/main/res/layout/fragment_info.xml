@@ -31,7 +31,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Uno de los jugadores es el adivino y no conoce la palabra secreta. El resto sí la conocen y deben hablar sobre ella sin revelarla. El adivino intenta descubrir quién miente."
+            android:text="Uno de los jugadores es el farol y no conoce la palabra secreta. El resto (lugareños) sí la conocen y deben hablar sobre ella sin revelarla. Los lugareños deben adivinar quién es el farol"
             android:textSize="16sp"
             android:textColor="@color/black"
             android:fontFamily="@font/sigmar"
@@ -49,7 +49,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cada jugador tiene un turno para decir una pista o una frase sobre la palabra. El adivino escucha a todos y luego vota a quien cree que está mintiendo."
+            android:text="Cada jugador tiene que decir una pista o una palabra relacionada sobre la palabra. Los jugadores escuchan a todos y luego votan a quienes creen que está mintiendo."
             android:textSize="16sp"
             android:textColor="@color/black"
             android:fontFamily="@font/sigmar"
@@ -67,7 +67,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cada jugador tiene 3 vidas. Si el adivino te vota y acierta, pierdes una vida. Cuando te quedas sin vidas quedas eliminado. El juego termina cuando solo quedan 2 jugadores."
+            android:text="Cada jugador tiene 3 vidas. Si la persona más votada es el farol, pierde una vida y si no es farol, los demás jugadores la perderán. Cuando te quedas sin vidas quedas eliminado. El juego termina cuando solo quedan 2 jugadores."
             android:textSize="16sp"
             android:textColor="@color/black"
             android:fontFamily="@font/sigmar"
@@ -81,7 +81,7 @@
             android:textSize="20sp"
             android:textColor="@color/rojo_principal"
             android:fontFamily="@font/knewave_regular"
-            android:background="@drawable/boton_relieve"
+            android:backgroundTint="#2A2A2A"
             android:padding="16dp"
             android:layout_marginTop="16dp"/>
 

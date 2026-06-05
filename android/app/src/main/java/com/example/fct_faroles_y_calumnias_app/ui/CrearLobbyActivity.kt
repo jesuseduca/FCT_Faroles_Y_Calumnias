@@ -35,12 +35,14 @@ class CrearLobbyActivity : AppCompatActivity() {
                 if (tipo == "sala_creada") {
                     val codigoSala = mapa["codigo"].toString()
                     runOnUiThread {
+                        WebSocketManager.listener = null
                         val intent = Intent(this@CrearLobbyActivity, LobbyActivity::class.java)
                         intent.putExtra("nombre_usuario", nombreUsuario)
                         intent.putExtra("codigo_sala", codigoSala)
                         intent.putExtra("es_creador", true)
                         intent.putExtra("perfil_id", perfilId)  // añade esto
                         startActivity(intent)
+                        finish()
                     }
                 } else if (tipo == "sala_error") {
                     runOnUiThread {
@@ -79,6 +81,6 @@ class CrearLobbyActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        WebSocketManager.listener = null
+
     }
 }

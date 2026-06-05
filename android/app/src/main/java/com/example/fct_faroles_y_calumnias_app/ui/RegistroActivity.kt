@@ -1,6 +1,5 @@
 package com.example.fct_faroles_y_calumnias_app.ui
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -54,6 +53,7 @@ class RegistroActivity : AppCompatActivity() {
             }
 
             enviarRegistro(nombre, email, password)
+            Toast.makeText(this, "Has sido registrado", Toast.LENGTH_SHORT).show()
         }
 
         btnVolver.setOnClickListener {

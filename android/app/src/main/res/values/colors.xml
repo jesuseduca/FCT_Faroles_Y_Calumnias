@@ -5,4 +5,5 @@
     <color name="rojo_principal">#BB3235</color>
     <color name="texto_secundario">#888888</color>
     <color name="boton_negro">#2A2A2A</color>
+    <color name="seleccion_jugador">#F0C8C8</color>
 </resources>

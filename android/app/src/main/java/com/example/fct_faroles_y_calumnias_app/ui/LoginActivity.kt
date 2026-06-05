@@ -55,11 +55,10 @@ class LoginActivity : AppCompatActivity() {
 
         btnInvitado.setOnClickListener {
             val intent = Intent(this, MenuActivity::class.java)
-            intent.putExtra("nombre_usuario", "Invitado")
+            intent.putExtra("nombre_usuario", "")
             intent.putExtra("es_invitado", true)
             startActivity(intent)
         }
-
         WebSocketManager.listener = object : WebSocketListener() {
             override fun onMessage(webSocket: WebSocket, text: String) {
                 val mapa = gson.fromJson(text, Map::class.java)

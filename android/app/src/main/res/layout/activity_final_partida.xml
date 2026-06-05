@@ -45,15 +45,4 @@
         android:padding="16dp"
         android:layout_marginBottom="16dp"/>
 
-    <Button
-        android:id="@+id/btnReinciar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Jugar de nuevo"
-        android:textSize="20sp"
-        android:backgroundTint="#2A2A2A"
-        android:textColor="@color/rojo_principal"
-        android:fontFamily="@font/knewave_regular"
-        android:padding="16dp"/>
-
 </LinearLayout>

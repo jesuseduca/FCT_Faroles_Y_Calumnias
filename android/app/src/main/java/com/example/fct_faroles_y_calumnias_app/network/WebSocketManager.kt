@@ -5,16 +5,27 @@ import okhttp3.Request
 import okhttp3.WebSocket
 import okhttp3.WebSocketListener
 import okhttp3.Response
-import okio.ByteString
 
 object WebSocketManager {
 
     private var webSocket: WebSocket? = null
     private val client = OkHttpClient()
-    var listener: WebSocketListener? = null
+    private val mensajesPendientes = mutableListOf<String>()
 
-    // Aquí se guardará la URL del servidor con ngrok
-    private const val SERVER_URL = "ws://192.168.1.35:8765"
+    var listener: WebSocketListener? = null
+        set(value) {
+            field = value
+            if (value != null) {
+                android.util.Log.d("WebSocket", "Listener registrado, pendientes: ${mensajesPendientes.size}")
+                for (mensaje in mensajesPendientes) {
+                    android.util.Log.d("WebSocket", "Entregando pendiente: $mensaje")
+                    value.onMessage(webSocket!!, mensaje)
+                }
+                mensajesPendientes.clear()
+            }
+        }
+
+    private const val SERVER_URL = "ws://192.168.1.36:8765"
 
     fun conectar() {
         val request = Request.Builder()
@@ -49,4 +60,5 @@ object WebSocketManager {
         webSocket?.close(1000, "Cierre normal")
         webSocket = null
     }
+
 }

@@ -1,10 +1,9 @@
-import asyncio
+import time
 import random
 import json
 import database
 
 salas = {}
-DURACION_DIALOGO = 60  # segundos
 
 def generar_codigo():
     letras = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"
@@ -70,6 +69,7 @@ async def cerrar_lobby(ws, datos):
     palabra = random.choice(coleccion["palabras"])
     jugadores = list(salas[codigo]["jugadores"].values())
     farol = random.choice(jugadores)
+    salas[codigo]["farol"] = farol
 
     palabras_señuelo = random.sample(coleccion["palabras"], 12)
     if palabra not in palabras_señuelo:
@@ -80,6 +80,8 @@ async def cerrar_lobby(ws, datos):
     salas[codigo]["vidas"] = {}
     salas[codigo]["partida_iniciada"] = True
     salas[codigo]["coleccion_id"] = coleccion_id
+    salas[codigo]["tiempo_inicio"] = time.time()
+
     for nombre in salas[codigo]["jugadores"].values():
         salas[codigo]["vidas"][nombre] = 3
 

@@ -1,11 +1,10 @@
-import asyncio
 import random
 import json
 from salas import salas
 import database
+import time
 
 
-DURACION_DIALOGO = 60  # segundos
 
 
 async def asignar_rol(ws, datos):
@@ -56,17 +55,29 @@ async def voto(ws, datos):
             conteo[v] += 1
 
         eliminado = max(conteo, key=lambda x: conteo[x])
-        salas[codigo]["vidas"][eliminado] -= 1
-        vidas_restantes = salas[codigo]["vidas"][eliminado]
-
+        farol = salas[codigo]["farol"]
         salas[codigo]["votos"] = {}
 
-        for jugador_ws in salas[codigo]["jugadores"]:
-            await jugador_ws.send(json.dumps({
-                "tipo": "resultado_voto",
-                "jugador_eliminado": eliminado,
-                "vidas_restantes": vidas_restantes
-            }))
+        if eliminado == farol:
+            salas[codigo]["vidas"][eliminado] -= 1
+            vidas_restantes = salas[codigo]["vidas"][eliminado]
+            for jugador_ws in salas[codigo]["jugadores"]:
+                await jugador_ws.send(json.dumps({
+                    "tipo": "resultado_voto",
+                    "jugador_eliminado": eliminado,
+                    "vidas_restantes": vidas_restantes
+                }))
+        else:
+            for nombre in list(salas[codigo]["vidas"].keys()):
+                if nombre != farol:
+                    salas[codigo]["vidas"][nombre] -= 1
+                    vidas_restantes = salas[codigo]["vidas"][nombre]
+                    for jugador_ws in salas[codigo]["jugadores"]:
+                        await jugador_ws.send(json.dumps({
+                            "tipo": "resultado_voto",
+                            "jugador_eliminado": nombre,
+                            "vidas_restantes": vidas_restantes
+                        }))
 
         jugadores_vivos = []
         for nombre, vidas in salas[codigo]["vidas"].items():
@@ -75,16 +86,22 @@ async def voto(ws, datos):
 
         if len(jugadores_vivos) <= 2:
             ganador = max(salas[codigo]["vidas"], key=lambda x: salas[codigo]["vidas"][x])
-            for jugador_ws in salas[codigo]["jugadores"]:
+            coleccion_id = salas[codigo]["coleccion_id"]
+            duracion = int(time.time() - salas[codigo]["tiempo_inicio"])
+            for jugador_ws, nombre in salas[codigo]["jugadores"].items():
+                gano = nombre == ganador
                 await jugador_ws.send(json.dumps({
                     "tipo": "partida_terminada",
-                    "ganador": ganador
+                    "ganador": ganador,
+                    "coleccion_id": coleccion_id,
+                    "gano": gano,
+                    "duracion": duracion
                 }))
         else:
             coleccion = database.obtener_coleccion(salas[codigo]["coleccion_id"])
             palabra = random.choice(coleccion["palabras"])
-            jugadores_nombres = list(salas[codigo]["jugadores"].values())
             farol = random.choice(jugadores_vivos)
+            salas[codigo]["farol"] = farol
 
             palabras_señuelo = random.sample(coleccion["palabras"], 12)
             if palabra not in palabras_señuelo:
@@ -101,7 +118,7 @@ async def voto(ws, datos):
                     "palabra": palabra,
                     "palabras": palabras_señuelo
                 }))
-            await asyncio.sleep(DURACION_DIALOGO)
+
 
 
 def obtener_palabra(coleccion):
@@ -130,7 +147,7 @@ async def partida_terminada(ws, datos):
         await jugador_ws.send(json.dumps({"tipo": "partida_guardada", "partida_id": str(partida_id)}))
 
 async def pedir_historial(ws, datos):
-    perfil_id = datos["perfil_id"]
+    perfil_id = datos["datos"]["perfil_id"]
     historial = database.obtener_historial(perfil_id)
     await ws.send(json.dumps({"tipo": "historial", "historial": historial}))
 
@@ -141,7 +158,12 @@ async def login(ws, datos):
 
     perfil_id = database.login(usuario, password)
     if perfil_id:
-        await ws.send(json.dumps({"tipo": "login_ok", "perfil_id": perfil_id}))
+        perfil = database.obtener_perfil(perfil_id)
+        await ws.send(json.dumps({
+            "tipo": "login_ok",
+            "perfil_id": perfil_id,
+            "nombre": perfil["nombre"]
+        }))
     else:
         await ws.send(json.dumps({"tipo": "login_error"}))
 
@@ -186,14 +208,24 @@ async def pedir_lista_jugadores(ws, datos, salas):
     await ws.send(json.dumps({"tipo": "lista_jugadores", "jugadores": lista}))
 
 async def guardar_partida_jugador(ws, datos):
-    perfil_id = datos["datos"]["perfil_id"]
-    ganador = datos["datos"]["ganador"]
-    coleccion_id = datos["datos"]["coleccion_id"]
-    gano = datos["datos"]["gano"]
-    nombre = datos["datos"]["nombre"]
+    try:
+        perfil_id = datos["datos"]["perfil_id"]
+        ganador = datos["datos"]["ganador"]
+        coleccion_id = datos["datos"]["coleccion_id"]
+        gano = datos["datos"]["gano"]
+        nombre = datos["datos"]["nombre"]
+        duracion = datos["datos"].get("duracion", 0)
 
-    partida_id = database.guardar_partida(ganador, 0, coleccion_id, [perfil_id])
-    database.guardar_jugador(partida_id, perfil_id, nombre, 0, gano)
-    database.actualizar_perfil(perfil_id, partida_id, gano)
+        coleccion = database.obtener_coleccion(coleccion_id)
+        nombre_coleccion = coleccion["nombre"]
 
-    await ws.send(json.dumps({"tipo": "partida_guardada"}))
+        partida_id = database.guardar_partida(ganador, duracion, nombre_coleccion, [perfil_id])
+
+        database.guardar_jugador(partida_id, perfil_id, nombre, 0, gano)
+
+        database.actualizar_perfil(perfil_id, partida_id, gano)
+
+        await ws.send(json.dumps({"tipo": "partida_guardada"}))
+    except Exception as e:
+        print(f"Error al guardar partida: {e}")
+        await ws.send(json.dumps({"tipo": "error", "mensaje": str(e)}))

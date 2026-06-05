@@ -26,9 +26,13 @@ class MenuActivity : AppCompatActivity() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
 
-        val nombreUsuario = intent.getStringExtra("nombre_usuario") ?: "Invitado"
+
         val esInvitado = intent.getBooleanExtra("es_invitado", false)
         val perfilId = intent.getStringExtra("perfil_id") ?: ""
+        var nombreUsuario = intent.getStringExtra("nombre_usuario") ?: ""
+        if (nombreUsuario.isEmpty() && esInvitado) {
+            nombreUsuario = "Invitado_" + (1000..9999).random()
+        }
 
         tvBienvenida.text = "¡Bienvenido, $nombreUsuario!"
 

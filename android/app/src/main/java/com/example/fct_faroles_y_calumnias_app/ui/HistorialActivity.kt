@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.fct_faroles_y_calumnias_app.R
 import com.example.fct_faroles_y_calumnias_app.network.WebSocketManager
 import com.google.gson.Gson
+import com.google.gson.JsonObject
 import okhttp3.Response
 import okhttp3.WebSocket
 import okhttp3.WebSocketListener
@@ -25,33 +26,61 @@ class HistorialActivity : AppCompatActivity() {
         val lvHistorial = findViewById<ListView>(R.id.lvHistorial)
         val btnVolverPerfil = findViewById<Button>(R.id.btnVolverPerfil)
 
-        val nombreUsuario = intent.getStringExtra("nombre_usuario") ?: ""
+        val perfilId = intent.getStringExtra("perfil_id") ?: ""
 
         adapterHistorial = ArrayAdapter(this, android.R.layout.simple_list_item_1, listaHistorial)
         lvHistorial.adapter = adapterHistorial
 
-        // Escuchamos la respuesta del servidor
         WebSocketManager.listener = object : WebSocketListener() {
 
             override fun onMessage(webSocket: WebSocket, text: String) {
-                val mapa = gson.fromJson(text, Map::class.java)
-                val tipo = mapa["tipo"] as? String ?: return
-                val datos = mapa["datos"] as? Map<*, *> ?: return
+                val json = gson.fromJson(text, JsonObject::class.java)
+                val tipo = json.get("tipo").asString
 
-                runOnUiThread {
-                    when (tipo) {
-                        "historial" -> {
-                            val partidas = datos["partidas"] as? List<*> ?: return@runOnUiThread
-                            listaHistorial.clear()
-                            for (partida in partidas) {
-                                val p = partida as? Map<*, *> ?: continue
-                                val ganador = p["ganador"] as? String ?: "?"
-                                val coleccion = p["coleccion_usada"] as? String ?: "?"
-                                val duracion = p["duracion_partida"] as? String ?: "?"
-                                listaHistorial.add("Ganador: $ganador | Mazo: $coleccion | Duración: $duracion")
+                if (tipo == "historial") {
+                    val partidas = json.getAsJsonArray("historial")
+
+                    runOnUiThread {
+                        listaHistorial.clear()
+
+                        for (elemento in partidas) {
+                            val p = elemento.asJsonObject
+                            var ganador = "?"
+                            var coleccion = "?"
+                            var duracion = "?"
+                            var nombre = "?"
+                            var gano = false
+                            var vecesFarol = 0
+                            var ganoTexto = ""
+
+                            if (p.has("ganador")) {
+                                ganador = p.get("ganador").asString
                             }
-                            adapterHistorial.notifyDataSetChanged()
+                            if (p.has("coleccion_usada")) {
+                                coleccion = p.get("coleccion_usada").asString
+                            }
+                            if (p.has("duracion_partida")) {
+                                duracion = p.get("duracion_partida").asString
+                            }
+                            if (p.has("nombre")) {
+                                nombre = p.get("nombre").asString
+                            }
+                            if (p.has("gano")) {
+                                gano = p.get("gano").asBoolean
+                            }
+                            if (p.has("veces_farol")) {
+                                vecesFarol = p.get("veces_farol").asInt
+                            }
+                            if (gano) {
+                                ganoTexto = "Sí"
+                            } else {
+                                ganoTexto = "No"
+                            }
+
+                            listaHistorial.add("Ganador: $ganador | Mazo: $coleccion | ¿Ganaste? $ganoTexto | Farol: $vecesFarol veces")
                         }
+
+                        adapterHistorial.notifyDataSetChanged()
                     }
                 }
             }
@@ -61,11 +90,10 @@ class HistorialActivity : AppCompatActivity() {
             }
         }
 
-        // Pedimos el historial al servidor
         val mensaje = mapOf(
             "tipo" to "pedir_historial",
             "datos" to mapOf(
-                "nombre_usuario" to nombreUsuario
+                "perfil_id" to perfilId
             )
         )
         val json = gson.toJson(mensaje)

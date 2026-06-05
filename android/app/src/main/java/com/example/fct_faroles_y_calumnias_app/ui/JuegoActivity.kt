@@ -3,7 +3,6 @@ package com.example.fct_faroles_y_calumnias_app.ui
 import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.view.View
 import android.widget.Button
 import android.widget.GridLayout
 import android.widget.ListView
@@ -37,8 +36,6 @@ class JuegoActivity : AppCompatActivity() {
             }
         })
 
-        val tvTurno = findViewById<TextView>(R.id.tvTurno)
-        val tvTemporizador = findViewById<TextView>(R.id.tvTemporizador)
         val gridPalabras = findViewById<GridLayout>(R.id.gridPalabras)
         val lvJugadoresVivos = findViewById<ListView>(R.id.lvJugadoresVivos)
         val btnVotar = findViewById<Button>(R.id.btnVotar)
@@ -78,7 +75,8 @@ class JuegoActivity : AppCompatActivity() {
 
         lvJugadoresVivos.setOnItemClickListener { _, _, position, _ ->
             jugadorSeleccionado = listaJugadores[position].nombre
-            Toast.makeText(this, "Seleccionado: $jugadorSeleccionado", Toast.LENGTH_SHORT).show()
+            adapterJugadores.posicionSeleccionada = position
+            adapterJugadores.notifyDataSetChanged()
         }
 
         btnVotar.setOnClickListener {
@@ -164,6 +162,7 @@ class JuegoActivity : AppCompatActivity() {
                     var ganador = ""
                     var gano = false
                     var coleccionId = ""
+                    var duracion = 0
 
                     if (mapa["ganador"] != null) {
                         ganador = mapa["ganador"].toString()
@@ -174,6 +173,9 @@ class JuegoActivity : AppCompatActivity() {
                     if (mapa["coleccion_id"] != null) {
                         coleccionId = mapa["coleccion_id"].toString()
                     }
+                     if (mapa["duracion"] != null) {
+                        duracion = (mapa["duracion"] as Double).toInt()
+                    }
 
                     val intent = Intent(this@JuegoActivity, FinalPartidaActivity::class.java)
                     intent.putExtra("ganador", ganador)
@@ -182,6 +184,7 @@ class JuegoActivity : AppCompatActivity() {
                     intent.putExtra("nombre_usuario", nombreUsuario)
                     intent.putExtra("codigo_sala", codigoSala)
                     intent.putExtra("perfil_id", perfilId)
+                          intent.putExtra("duracion", duracion)
                     startActivity(intent)
                     finish()
                 } else if (tipo == "lista_jugadores") {
@@ -225,21 +228,6 @@ class JuegoActivity : AppCompatActivity() {
         val jsonLista = gson.toJson(mensajeLista)
         WebSocketManager.enviarMensaje(jsonLista)
 
-        arrancarTemporizador(tvTemporizador)
-    }
-
-    private fun arrancarTemporizador(tvTemporizador: TextView) {
-        temporizador?.cancel()
-        temporizador = object : CountDownTimer(60000, 1000) {
-            override fun onTick(millisUntilFinished: Long) {
-                val segundos = millisUntilFinished / 1000
-                tvTemporizador.text = segundos.toString()
-            }
-
-            override fun onFinish() {
-                tvTemporizador.text = "0"
-            }
-        }.start()
     }
 
     override fun onDestroy() {

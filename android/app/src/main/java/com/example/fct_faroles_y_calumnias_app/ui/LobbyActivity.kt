@@ -63,14 +63,8 @@ class LobbyActivity : AppCompatActivity() {
                 val mapa = gson.fromJson(text, Map::class.java)
                 val tipo = mapa["tipo"]
 
-                if (esCreador) {
-                    val mensaje = mapOf(
-                        "tipo" to "pedir_colecciones",
-                        "datos" to mapOf<String, String>()
-                    )
-                    val json = gson.toJson(mensaje)
-                    WebSocketManager.enviarMensaje(json)
-                }
+
+
                 runOnUiThread {
                     if (tipo == "jugador_unido") {
                         val jugadores = mapa["jugadores"]
@@ -126,6 +120,7 @@ class LobbyActivity : AppCompatActivity() {
                     intent.putExtra("palabra", palabra)
                     intent.putStringArrayListExtra("palabras", palabras)
                         intent.putExtra("perfil_id", perfilId)
+                        WebSocketManager.listener = null
                     startActivity(intent)
                 }
                 }
@@ -137,6 +132,8 @@ class LobbyActivity : AppCompatActivity() {
                 }
             }
         }
+
+
 
         if (esCreador) {
             val mensaje = mapOf(
@@ -168,6 +165,6 @@ class LobbyActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        WebSocketManager.listener = null
+
     }
 }

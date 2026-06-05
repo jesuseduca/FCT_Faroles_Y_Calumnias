@@ -27,7 +27,6 @@ class FinalPartidaActivity : AppCompatActivity() {
         val tvGanador = findViewById<TextView>(R.id.tvGanador)
         val lvClasificacion = findViewById<ListView>(R.id.lvClasificacion)
         val btnVolverMenu = findViewById<Button>(R.id.btnVolverMenu)
-        val btnReiniciar = findViewById<Button>(R.id.btnReinciar)
 
         val ganador = intent.getStringExtra("ganador") ?: ""
         val nombreUsuario = intent.getStringExtra("nombre_usuario") ?: ""
@@ -36,6 +35,7 @@ class FinalPartidaActivity : AppCompatActivity() {
         val perfilId = intent.getStringExtra("perfil_id") ?: ""
         val gano = intent.getBooleanExtra("gano", false)
         val coleccionId = intent.getStringExtra("coleccion_id") ?: ""
+        val duracion = intent.getIntExtra("duracion", 0)
 
         if (perfilId.isNotEmpty()) {
             val mensaje = mapOf(
@@ -45,7 +45,8 @@ class FinalPartidaActivity : AppCompatActivity() {
                     "ganador" to ganador,
                     "coleccion_id" to coleccionId,
                     "gano" to gano,
-                    "nombre" to nombreUsuario
+                    "nombre" to nombreUsuario,
+                    "duracion" to duracion
                 )
             )
             val json = gson.toJson(mensaje)
@@ -90,15 +91,6 @@ class FinalPartidaActivity : AppCompatActivity() {
             intent.putExtra("es_invitado", false)
             // Limpiamos toda la pila de Activities para que no pueda volver atrás
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
-            startActivity(intent)
-            finish()
-        }
-
-        btnReiniciar.setOnClickListener {
-            val intent = Intent(this, LobbyActivity::class.java)
-            intent.putExtra("nombre_usuario", nombreUsuario)
-            intent.putExtra("codigo_sala", codigoSala)
-            intent.putExtra("es_creador", false)
             startActivity(intent)
             finish()
         }

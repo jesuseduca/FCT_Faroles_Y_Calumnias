@@ -11,6 +11,8 @@ import com.example.fct_faroles_y_calumnias_app.model.Jugador
 
 class JugadorAdapter(private val context: Context, private val jugadores: MutableList<Jugador>) : BaseAdapter() {
 
+    var posicionSeleccionada = -1
+
     override fun getCount(): Int {
         return jugadores.size
     }
@@ -39,6 +41,12 @@ class JugadorAdapter(private val context: Context, private val jugadores: Mutabl
             i++
         }
         tvVidas.text = corazones
+
+        if (position == posicionSeleccionada) {
+            vista.setBackgroundColor(context.getColor(R.color.seleccion_jugador))
+        } else {
+            vista.setBackgroundColor(android.graphics.Color.TRANSPARENT)
+        }
 
         return vista
     }

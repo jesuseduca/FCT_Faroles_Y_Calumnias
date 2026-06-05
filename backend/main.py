@@ -22,8 +22,6 @@ async def gestionar_conexion(ws):
                 await partida.jugador_listo(ws, datos)
             elif tipo == "voto":
                 await partida.voto(ws, datos)
-            elif tipo == "resultado_adivinanza":
-                await partida.resultado_adivinanza(ws, datos)
             elif tipo == "partida_terminada":
                 await partida.partida_terminada(ws, datos)
             elif tipo == "pedir_historial":
